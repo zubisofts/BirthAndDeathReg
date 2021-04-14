@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941163911547",
+    "project_id": "birth-death-registration-911c7",
+    "storage_bucket": "birth-death-registration-911c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941163911547:android:6b77163583de4f0e75c5de",
+        "android_client_info": {
+          "package_name": "com.zubisoft.birthanddeathreg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941163911547-74dobots90shjkfor49da5h0fkdgl9a7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNXF3htGZY1lOtJoi9SxLCBC5vZ4W65-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941163911547-74dobots90shjkfor49da5h0fkdgl9a7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

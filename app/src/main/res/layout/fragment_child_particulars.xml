@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".ui.birth.ChildParticularsFragment">
+
+   <com.google.android.material.textfield.TextInputLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+       android:id="@+id/inputName">
+
+       <com.google.android.material.textfield.TextInputEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/edtName"
+           android:inputType="textPersonName"
+           android:hint="Child Name (Surname First)"/>
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnDateOfBirth"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/purple_200"
+            android:layout_marginEnd="16dp"
+            app:cardElevation="8dp"
+            app:contentPadding="12dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/dateIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDateOfBirth"
+                    android:text="Date of birth"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/dateIcon"/>
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.tiper.MaterialSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/sexSpinner"
+            android:layout_gravity="center_vertical"
+            android:hint="Child Sex"
+            app:spinnerMode="dropdown"/>
+
+    </LinearLayout>
+
+    <com.tiper.MaterialSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/inputOccurrence"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_vertical"
+        android:hint="Place of birth occurrence"
+        app:spinnerMode="bottomsheet"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/inputPlaceOfBirth">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtPlace"
+            android:inputType="textPersonName"
+            android:hint="Place of birth"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.tiper.MaterialSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/birthType"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_vertical"
+        android:hint="Type of birth"
+        app:spinnerMode="dropdown"/>
+
+</LinearLayout>
