@@ -1,6 +1,8 @@
 package com.zubisoft.birthanddeathreg.model.birthmodels;
 
-public class InformantBirthData {
+import java.io.Serializable;
+
+public class InformantBirthData implements Serializable {
 
     private String name;
     private String relationship;

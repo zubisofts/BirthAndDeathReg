@@ -22,11 +22,14 @@ import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
 import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
+import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.ChildBirthData;
+import com.zubisoft.birthanddeathreg.model.deathmodels.DeathRegData;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -38,6 +41,9 @@ public class ChildParticularsFragment extends Fragment implements Step {
     private long date;
 
     private BirthDataInteractionListener birthDataInteractionListener;
+    private String[] sexes;
+    private String[] birthTypes;
+    private String[] birthOccurrence;
 
 
     public ChildParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
@@ -59,10 +65,10 @@ public class ChildParticularsFragment extends Fragment implements Step {
         edtPlaceOfBirth = view.findViewById(R.id.edtPlace);
 
         sexSpinner = view.findViewById(R.id.sexSpinner);
-        String[] sexes = new String[]{"Male", "Female"};
-        String[] birthTypes = new String[]{"Single", "Multiple"};
+        sexes = new String[]{"Male", "Female"};
+        birthTypes = new String[]{"Single", "Multiple"};
         inputTypeOfBirth.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthTypes));
-        String[] birthOccurrence = new String[]{"Maternity Home", "Hospital", "At Home", "Traditional Doctor's place"};
+        birthOccurrence = new String[]{"Maternity Home", "Hospital", "At Home", "Traditional Doctor's place"};
         inputOccurrence.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthOccurrence));
         sexSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, sexes));
 
@@ -116,7 +122,7 @@ public class ChildParticularsFragment extends Fragment implements Step {
         if (isFieldsValidated()){
             birthDataInteractionListener.onChildBirthDataPassed(new ChildBirthData(
                     edtName.getText().toString(),
-                    0L,
+                    date,
                     sexSpinner.getSelectedItem().toString(),
                     edtPlaceOfBirth.getText().toString(),
                     inputOccurrence.getSelectedItem().toString(),
@@ -130,6 +136,31 @@ public class ChildParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
+    }
+
+    private void setupInitialData() {
+        BirthRegData birthRegData= (BirthRegData) getActivity().getIntent().getSerializableExtra("data");
+        if(birthRegData != null){
+            setDataToViews(birthRegData);
+        }
+    }
+
+    private void setDataToViews(BirthRegData birthRegData) {
+        edtName.setText(birthRegData.getChildBirthData().getChildName());
+        date=birthRegData.getChildBirthData().getDateOfBirth();
+        edtPlaceOfBirth.setText(birthRegData.getChildBirthData().getPlaceOfBirth());
+        String dateOfBirth=new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
+        ((TextView)(getView().findViewById(R.id.txtDateOfBirth))).setText(dateOfBirth);
+        sexSpinner.setSelection( Arrays.asList(sexes).indexOf(birthRegData.getChildBirthData().getSex()));
+        inputOccurrence.setSelection( Arrays.asList(birthOccurrence).indexOf(birthRegData.getChildBirthData().getPlaceOfBirthOccurrence()));
+        inputTypeOfBirth.setSelection( Arrays.asList(birthTypes).indexOf(birthRegData.getChildBirthData().getTypeOfBirth()));
+
     }
 
     @Override

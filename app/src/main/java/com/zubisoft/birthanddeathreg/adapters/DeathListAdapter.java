@@ -21,6 +21,7 @@ import java.util.Locale;
 public class DeathListAdapter extends RecyclerView.Adapter<DeathListAdapter.DeathItemViewHolder> {
 
     private ArrayList<DeathRegData> deathList=new ArrayList<>();
+    private DeathListItemListener deathListItemListener;
 
     @NonNull
     @Override
@@ -36,6 +37,9 @@ public class DeathListAdapter extends RecyclerView.Adapter<DeathListAdapter.Deat
             holder.txtName.setText(deathRegData.getDeceasedData().getName());
             holder.txtAddress.setText(deathRegData.getDeceasedData().getAddress());
             holder.txtDate.setText(MessageFormat.format("{0} years", deathRegData.getDeceasedData().getAge()));
+
+            holder.itemView.setOnClickListener(view->deathListItemListener.onItemClicked(deathRegData));
+            holder.btnMore.setOnClickListener(view->deathListItemListener.onOptionsItemClicked(deathRegData, holder.btnMore));
         }
     }
 
@@ -47,6 +51,10 @@ public class DeathListAdapter extends RecyclerView.Adapter<DeathListAdapter.Deat
     public void setDeathList(ArrayList<DeathRegData> deathList) {
         this.deathList = deathList;
         notifyDataSetChanged();
+    }
+
+    public void setDeathListItemListener(DeathListItemListener deathListItemListener) {
+        this.deathListItemListener = deathListItemListener;
     }
 
     class DeathItemViewHolder extends RecyclerView.ViewHolder{
@@ -64,5 +72,10 @@ public class DeathListAdapter extends RecyclerView.Adapter<DeathListAdapter.Deat
             txtDate=itemView.findViewById(R.id.txtDate);
             btnMore=itemView.findViewById(R.id.btnMore);
         }
+    }
+
+    public interface DeathListItemListener{
+        public void onItemClicked(DeathRegData deathRegData);
+        public void onOptionsItemClicked(DeathRegData deathRegData, View view);
     }
 }

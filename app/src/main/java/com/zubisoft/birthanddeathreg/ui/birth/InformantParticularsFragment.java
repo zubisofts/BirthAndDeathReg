@@ -16,6 +16,7 @@ import com.stepstone.stepper.VerificationError;
 import com.zubisoft.birthanddeathreg.R;
 import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
+import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.InformantBirthData;
 
 public class InformantParticularsFragment extends Fragment implements Step {
@@ -73,6 +74,27 @@ public class InformantParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
+    }
+
+    private void setupInitialData() {
+        BirthRegData birthRegData= (BirthRegData) getActivity().getIntent().getSerializableExtra("data");
+        if(birthRegData != null){
+            setDataToViews(birthRegData);
+        }
+    }
+
+    private void setDataToViews(BirthRegData birthRegData) {
+        edtName.setText(birthRegData.getInformantBirthData().getName());
+        edtRelationShip.setText(birthRegData.getInformantBirthData().getRelationship());
+        edtNumber.setText(birthRegData.getInformantBirthData().getPhoneNumber());
+        edtNationalId.setText(String.valueOf(birthRegData.getInformantBirthData().getNationalId()));
+        edtAddress.setText(birthRegData.getInformantBirthData().getAddress());
 
     }
 

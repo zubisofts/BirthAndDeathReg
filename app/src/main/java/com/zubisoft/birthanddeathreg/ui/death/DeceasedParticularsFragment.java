@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +25,11 @@ import com.zubisoft.birthanddeathreg.R;
 import com.zubisoft.birthanddeathreg.handlers.DeathDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
 import com.zubisoft.birthanddeathreg.model.birthmodels.MotherBirthData;
+import com.zubisoft.birthanddeathreg.model.deathmodels.DeathRegData;
 import com.zubisoft.birthanddeathreg.model.deathmodels.DeceasedData;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -36,7 +40,11 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
     private MaterialSpinner spinnerMaritalStatus, spinnerEthnic,sexSpinner, placeOfDeathSpinner;
     private long date;
 
-    private DeathDataInteractionListener deathDataInteractionListener;
+    private final DeathDataInteractionListener deathDataInteractionListener;
+    private String[] status;
+    private String[] ethnics;
+    private String[] sex;
+    private String[] placeOfDeath;
 
     public DeceasedParticularsFragment(DeathDataInteractionListener deathDataInteractionListener) {
         this.deathDataInteractionListener=deathDataInteractionListener;
@@ -67,13 +75,13 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
         sexSpinner = view.findViewById(R.id.deathSexSpinner);
         placeOfDeathSpinner = view.findViewById(R.id.deathPlacepinner);
 
-        String[] status = new String[]{"Single", "Married"};
+        status = new String[]{"Single", "Married"};
         spinnerMaritalStatus.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, status));
-        String[] ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
+        ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
         spinnerEthnic.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ethnics));
-        String[] sex = new String[]{"Male", "Female"};
+        sex = new String[]{"Male", "Female"};
         sexSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, sex));
-        String[] placeOfDeath = new String[]{"Home/Hospital", "Maternity Home", "Traditional"};
+        placeOfDeath = new String[]{"Home/Hospital", "Maternity Home", "Traditional"};
         placeOfDeathSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, placeOfDeath));
 
         edtName.addTextChangedListener(new InputListener(inputName));
@@ -91,6 +99,7 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
         spinnerMaritalStatus.setOnItemClickListener((materialSpinner, view1, i, l) -> spinnerMaritalStatus.setError(null));
         sexSpinner.setOnItemClickListener((materialSpinner, view12, i, l) -> sexSpinner.setError(null));
         placeOfDeathSpinner.setOnItemClickListener((materialSpinner, view1, i, l) -> placeOfDeathSpinner.setError(null));
+
 
         view.findViewById(R.id.btnDateOfBirth).setOnClickListener(v->{
             MaterialDatePicker<Long> datePicker =
@@ -111,6 +120,32 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
         return view;
     }
 
+    private void setupInitialData() {
+        DeathRegData deathRegData= (DeathRegData) getActivity().getIntent().getSerializableExtra("data");
+            if(deathRegData != null){
+                setDataToViews(deathRegData);
+            }
+    }
+
+    private void setDataToViews(DeathRegData deathRegData) {
+
+        edtName.setText(deathRegData.getDeceasedData().getName());
+        edtOccupation.setText(deathRegData.getDeceasedData().getOccupation());
+        edtAddress.setText(deathRegData.getDeceasedData().getAddress());
+        edtAge.setText(String.valueOf(deathRegData.getDeceasedData().getAge()));
+        edtStateOrigin.setText(deathRegData.getDeceasedData().getStateOrigin());
+        edtDeathCause.setText(deathRegData.getDeceasedData().getDeathCause());
+        date=deathRegData.getDeceasedData().getDateOfDeath();
+        String dateOfBirth=new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
+        ((TextView)(getView().findViewById(R.id.txtDateOfDeath))).setText(dateOfBirth);
+
+        spinnerMaritalStatus.setSelection( Arrays.asList(status).indexOf(deathRegData.getDeceasedData().getMaritalStatus()));
+        sexSpinner.setSelection( Arrays.asList(sex).indexOf(deathRegData.getDeceasedData().getGender()));
+        placeOfDeathSpinner.setSelection( Arrays.asList(placeOfDeath).indexOf(deathRegData.getDeceasedData().getPlaceOfDeath()));
+        spinnerEthnic.setSelection( Arrays.asList(ethnics).indexOf(deathRegData.getDeceasedData().getEthnicGroup()));
+
+    }
+
     @Nullable
     @Override
     public VerificationError verifyStep() {
@@ -125,7 +160,8 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
                     spinnerMaritalStatus.getSelectedItem().toString(),
                     sexSpinner.getSelectedItem().toString(),
                     placeOfDeathSpinner.getSelectedItem().toString(),
-                    spinnerEthnic.getSelectedItem().toString()
+                    spinnerEthnic.getSelectedItem().toString(),
+                    date
             ));
             return null;
         }
@@ -135,7 +171,12 @@ public class DeceasedParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
-
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
     }
 
     @Override

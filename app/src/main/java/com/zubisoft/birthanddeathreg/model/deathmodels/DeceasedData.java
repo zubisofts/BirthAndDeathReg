@@ -1,6 +1,8 @@
 package com.zubisoft.birthanddeathreg.model.deathmodels;
 
-public class DeceasedData {
+import java.io.Serializable;
+
+public class DeceasedData implements Serializable {
 
     private String name;
     private String address;
@@ -12,11 +14,12 @@ public class DeceasedData {
     private String gender;
     private String placeOfDeath;
     private String ethnicGroup;
+    private long dateOfDeath;
 
     public DeceasedData() {
     }
 
-    public DeceasedData(String name, String address, double age, String deathCause, String stateOrigin, String occupation, String maritalStatus, String gender, String placeOfDeath, String ethnicGroup) {
+    public DeceasedData(String name, String address, double age, String deathCause, String stateOrigin, String occupation, String maritalStatus, String gender, String placeOfDeath, String ethnicGroup, long dateOfDeath) {
         this.name = name;
         this.address = address;
         this.age = age;
@@ -27,6 +30,7 @@ public class DeceasedData {
         this.gender = gender;
         this.placeOfDeath = placeOfDeath;
         this.ethnicGroup = ethnicGroup;
+        this.dateOfDeath = dateOfDeath;
     }
 
     public String getName() {
@@ -107,5 +111,13 @@ public class DeceasedData {
 
     public void setEthnicGroup(String ethnicGroup) {
         this.ethnicGroup = ethnicGroup;
+    }
+
+    public long getDateOfDeath() {
+        return dateOfDeath;
+    }
+
+    public void setDateOfDeath(long dateOfDeath) {
+        this.dateOfDeath = dateOfDeath;
     }
 }

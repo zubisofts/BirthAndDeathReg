@@ -1,6 +1,8 @@
 package com.zubisoft.birthanddeathreg.model.birthmodels;
 
-public class MotherBirthData {
+import java.io.Serializable;
+
+public class MotherBirthData implements Serializable {
 
     private String name;
     private String phoneNumber;

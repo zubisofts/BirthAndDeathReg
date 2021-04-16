@@ -1,6 +1,9 @@
 package com.zubisoft.birthanddeathreg.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -8,7 +11,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.zubisoft.birthanddeathreg.model.RestData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
@@ -19,44 +24,47 @@ import java.util.ArrayList;
 
 public class DataRepository {
 
+    private static final String TAG = "DataRepository";
+
     private FirebaseFirestore firestore;
-    public DataRepository(){
-        firestore=FirebaseFirestore.getInstance();
+
+    public DataRepository() {
+        firestore = FirebaseFirestore.getInstance();
     }
 
-public void saveBirthRegistrationData(BirthRegData birthRegData, MutableLiveData<RestData> birthRegResponse){
+    public void saveBirthRegistrationData(BirthRegData birthRegData, MutableLiveData<RestData> birthRegResponse) {
 
-    CollectionReference ref=firestore.collection("birth_registrations");
-    birthRegData.setId(ref.getId());
-            ref.add(birthRegData)
-            .addOnSuccessListener(documentReference -> {
-                birthRegResponse.postValue(
-                        new RestData(
-                                false,
-                                documentReference.getId()
-                        )
-                );
-            }).addOnFailureListener(e -> {
-        birthRegResponse.postValue(
-                new RestData(
-                        true,
-                        e.getMessage()
-                )
-        );
-            });
+        DocumentReference ref = firestore.collection("birth_registrations").document();
+        birthRegData.setId(ref.getId());
+        ref.set(birthRegData)
+                .addOnSuccessListener(documentReference -> {
+                    birthRegResponse.postValue(
+                            new RestData(
+                                    false,
+                                    "Record uploaded successfully!"
+                            )
+                    );
+                }).addOnFailureListener(e -> {
+            birthRegResponse.postValue(
+                    new RestData(
+                            true,
+                            e.getMessage()
+                    )
+            );
+        });
 
-}
+    }
 
-    public void saveDeathRegistrationData(DeathRegData deathRegData, MutableLiveData<RestData> deathRegResponse){
+    public void saveDeathRegistrationData(DeathRegData deathRegData, MutableLiveData<RestData> deathRegResponse) {
 
-        CollectionReference ref=firestore.collection("death_registrations");
+        DocumentReference ref = firestore.collection("death_registrations").document();
         deathRegData.setId(ref.getId());
-                ref.add(deathRegData)
+        ref.set(deathRegData)
                 .addOnSuccessListener(documentReference -> {
                     deathRegResponse.postValue(
                             new RestData(
                                     false,
-                                    documentReference.getId()
+                                    "Record uploaded successfully"
                             )
                     );
                 }).addOnFailureListener(e -> {
@@ -70,44 +78,104 @@ public void saveBirthRegistrationData(BirthRegData birthRegData, MutableLiveData
 
     }
 
-    public void fetchBirthRegList(MutableLiveData<RestData> birthRegListResponse){
+    public void fetchBirthRegList(MutableLiveData<RestData> birthRegListResponse) {
+
         firestore.collection("birth_registrations")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<BirthRegData> data=new ArrayList<>();
-                    for(DocumentSnapshot doc:queryDocumentSnapshots.getDocuments()){
-                        data.add(doc.toObject(BirthRegData.class));
+                .addSnapshotListener((value, error) -> {
+
+                    if (error == null) {
+                        ArrayList<BirthRegData> data = new ArrayList<>();
+                        for (DocumentSnapshot doc : value.getDocuments()) {
+                            data.add(doc.toObject(BirthRegData.class));
+                        }
+                        birthRegListResponse.postValue(new RestData(
+                                false,
+                                data
+                        ));
+                    } else {
+                        birthRegListResponse.postValue(new RestData(
+                                true,
+                                error.getMessage()
+                        ));
                     }
-                    birthRegListResponse.postValue(new RestData(
-                            false,
-                            data
-                    ));
-                }).addOnFailureListener(e -> {
-            birthRegListResponse.postValue(new RestData(
-                    true,
-                    e.getMessage()
-            ));
                 });
+
     }
 
-    public void fetchDeathRegList(MutableLiveData<RestData> deathRegListResponse){
+    public void fetchDeathRegList(MutableLiveData<RestData> deathRegListResponse) {
+
         firestore.collection("death_registrations")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<DeathRegData> data=new ArrayList<>();
-                    for(DocumentSnapshot doc:queryDocumentSnapshots.getDocuments()){
-                        data.add(doc.toObject(DeathRegData.class));
+                .addSnapshotListener((value, error) -> {
+                    if (error == null) {
+                        ArrayList<DeathRegData> data = new ArrayList<>();
+                        for (DocumentSnapshot doc : value.getDocuments()) {
+                            data.add(doc.toObject(DeathRegData.class));
+                        }
+                        deathRegListResponse.postValue(new RestData(
+                                false,
+                                data
+                        ));
+                    } else {
+                        deathRegListResponse.postValue(new RestData(
+                                true,
+                                error.getMessage()
+                        ));
                     }
-                    deathRegListResponse.postValue(new RestData(
-                            false,
-                            data
-                    ));
+                });
+
+    }
+
+    public void deleteDeathRecord(String id) {
+        firestore.collection("death_registrations")
+                .document(id)
+                .delete();
+    }
+
+    public void deleteBirthRecord(String id) {
+        firestore.collection("birth_registrations")
+                .document(id)
+                .delete();
+    }
+
+    public void updateDeathRegData(DeathRegData deathRegData, MutableLiveData<RestData> deathRegResponse) {
+        firestore.collection("death_registrations")
+       .document(deathRegData.getId())
+                .set(deathRegData)
+                .addOnSuccessListener(documentReference -> {
+                    deathRegResponse.postValue(
+                            new RestData(
+                                    false,
+                                    "Record updated successfully!"
+                            )
+                    );
                 }).addOnFailureListener(e -> {
-            deathRegListResponse.postValue(new RestData(
-                    true,
-                    e.getMessage()
-            ));
+            deathRegResponse.postValue(
+                    new RestData(
+                            true,
+                            e.getMessage()
+                    )
+            );
         });
     }
 
+    public void updateBirthRegData(BirthRegData birthRegData, MutableLiveData<RestData> birthRegResponse) {
+        firestore.collection("birth_registrations")
+                .document(birthRegData.getId())
+                .set(birthRegData)
+                .addOnSuccessListener(documentReference -> {
+                    birthRegResponse.postValue(
+                            new RestData(
+                                    false,
+                                    "Record updated successfully!"
+                            )
+                    );
+                }).addOnFailureListener(e -> {
+            birthRegResponse.postValue(
+                    new RestData(
+                            true,
+                            e.getMessage()
+                    )
+            );
+        });
+    }
 }

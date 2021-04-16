@@ -20,6 +20,7 @@ import java.util.Locale;
 public class BirthListAdapter extends RecyclerView.Adapter<BirthListAdapter.BirthItemViewHolder> {
 
     private ArrayList<BirthRegData> birthList=new ArrayList<>();
+    private BirthItemListener birthItemListener;
 
     @NonNull
     @Override
@@ -36,6 +37,14 @@ public class BirthListAdapter extends RecyclerView.Adapter<BirthListAdapter.Birt
             holder.txtAddress.setText(birthRegData.getChildBirthData().getPlaceOfBirth());
             String dob=new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(birthRegData.getChildBirthData().getDateOfBirth());
             holder.txtDate.setText(dob);
+
+            holder.itemView.setOnClickListener(v -> {
+                birthItemListener.onBirthItemClicked(birthRegData);
+            });
+
+            holder.btnMore.setOnClickListener(v->{
+                birthItemListener.onOptionItemClicked(birthRegData, holder.btnMore);
+            });
         }
     }
 
@@ -47,6 +56,10 @@ public class BirthListAdapter extends RecyclerView.Adapter<BirthListAdapter.Birt
     public void setBirthList(ArrayList<BirthRegData> birthList) {
         this.birthList = birthList;
         notifyDataSetChanged();
+    }
+
+    public void setBirthItemListener(BirthItemListener birthItemListener) {
+        this.birthItemListener = birthItemListener;
     }
 
     class BirthItemViewHolder extends RecyclerView.ViewHolder{
@@ -64,5 +77,9 @@ public class BirthListAdapter extends RecyclerView.Adapter<BirthListAdapter.Birt
             txtDate=itemView.findViewById(R.id.txtDate);
             btnMore=itemView.findViewById(R.id.btnMore);
         }
+    }
+    public interface BirthItemListener{
+        public void onBirthItemClicked(BirthRegData birthRegData);
+        public void onOptionItemClicked(BirthRegData birthRegData, ImageView view);
     }
 }

@@ -29,4 +29,11 @@ public class BirthViewModel extends ViewModel {
         return birthRegListResponse;
     }
 
+    public void deleteBirthRecord(String id) {
+        new DataRepository().deleteBirthRecord(id);
+    }
+
+    public void updateDeathInfo(BirthRegData birthRegData) {
+        new DataRepository().updateBirthRegData(birthRegData, birthRegResponse);
+    }
 }

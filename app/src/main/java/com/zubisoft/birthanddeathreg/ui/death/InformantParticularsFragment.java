@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -19,7 +20,12 @@ import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.DeathDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
 import com.zubisoft.birthanddeathreg.model.birthmodels.InformantBirthData;
+import com.zubisoft.birthanddeathreg.model.deathmodels.DeathRegData;
 import com.zubisoft.birthanddeathreg.model.deathmodels.DeceasedInformantData;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Locale;
 
 public class InformantParticularsFragment extends Fragment implements Step {
 
@@ -71,7 +77,25 @@ public class InformantParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
+    }
 
+    private void setupInitialData() {
+        DeathRegData deathRegData= (DeathRegData) getActivity().getIntent().getSerializableExtra("data");
+        if(deathRegData != null){
+            setDataToViews(deathRegData);
+        }
+    }
+
+    private void setDataToViews(DeathRegData deathRegData) {
+        edtName.setText(deathRegData.getDeceasedInformantData().getName());
+        edtRelationShip.setText(deathRegData.getDeceasedInformantData().getRelationShip());
+        edtAddress.setText(deathRegData.getDeceasedInformantData().getAddress());
     }
 
     @Override

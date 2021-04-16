@@ -1,6 +1,8 @@
 package com.zubisoft.birthanddeathreg.model.deathmodels;
 
-public class DeceasedInformantData {
+import java.io.Serializable;
+
+public class DeceasedInformantData implements Serializable {
     private String name;
     private String address;
     private String relationShip;

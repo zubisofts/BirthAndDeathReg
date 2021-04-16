@@ -1,6 +1,7 @@
 package com.zubisoft.birthanddeathreg;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,6 +21,7 @@ import com.zubisoft.birthanddeathreg.model.birthmodels.ChildBirthData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.FatherBirthData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.InformantBirthData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.MotherBirthData;
+import com.zubisoft.birthanddeathreg.model.deathmodels.DeathRegData;
 import com.zubisoft.birthanddeathreg.ui.birth.BirthViewModel;
 import com.zubisoft.birthanddeathreg.ui.birth.ChildParticularsFragment;
 import com.zubisoft.birthanddeathreg.ui.birth.FatherParticularsFragment;
@@ -38,6 +40,7 @@ public class BirthRegistrationActivity extends AppCompatActivity implements Step
     private BirthViewModel birthViewModel;
 
     private ProgressDialog progressDialog;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,17 @@ public class BirthRegistrationActivity extends AppCompatActivity implements Step
         setContentView(R.layout.activity_birth_registration);
 
         birthViewModel=new ViewModelProvider.NewInstanceFactory().create(BirthViewModel.class);
+
         progressDialog=new ProgressDialog(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        type = getIntent().getStringExtra("type");
+        if (type != null)
+            if (type.equals("edit")) {
+                getSupportActionBar().setTitle("Edit Record");
+            }
+
 
         stepperLayout=findViewById(R.id.stepperLayout);
         BirthRegistrationStepperAdapter birthRegistrationStepperAdapter=new BirthRegistrationStepperAdapter(getSupportFragmentManager(), this);
@@ -96,12 +109,27 @@ public class BirthRegistrationActivity extends AppCompatActivity implements Step
     private void saveBirthDetails() {
 
         showLoadingDialog();
-        birthViewModel.saveBirthInfo(new BirthRegData(
-                childBirthData,
-                motherBirthData,
-                fatherBirthData,
-                informantBirthData
-        ));
+        if (type != null) {
+            if (type.equals("edit")) {
+                BirthRegData birthRegData = new BirthRegData(
+                        childBirthData,
+                        motherBirthData,
+                        fatherBirthData,
+                        informantBirthData
+                );
+                BirthRegData birthRegData2 = (BirthRegData) getIntent().getSerializableExtra("data");
+                birthRegData.setId(birthRegData2.getId());
+                birthViewModel.updateDeathInfo(birthRegData);
+            } else {
+                birthViewModel.saveBirthInfo(new BirthRegData(
+                        childBirthData,
+                        motherBirthData,
+                        fatherBirthData,
+                        informantBirthData
+                ));
+
+            }
+        }
 
     }
 

@@ -18,7 +18,10 @@ import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
 import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
+import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.MotherBirthData;
+
+import java.util.Arrays;
 
 public class MotherParticularsFragment extends Fragment implements Step {
 
@@ -27,6 +30,8 @@ public class MotherParticularsFragment extends Fragment implements Step {
     private MaterialSpinner spinnerMaritalStatus, spinnerEthnic;
 
     private final BirthDataInteractionListener birthDataInteractionListener;
+    private String[] status;
+    private String[] ethnics;
 
     public MotherParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
        this.birthDataInteractionListener = birthDataInteractionListener;
@@ -58,9 +63,9 @@ public class MotherParticularsFragment extends Fragment implements Step {
         spinnerEthnic = view.findViewById(R.id.spinerEthnic);
         spinnerMaritalStatus = view.findViewById(R.id.statusSpinner);
 
-        String[] status = new String[]{"Single", "Married"};
+        status = new String[]{"Single", "Married"};
         spinnerMaritalStatus.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, status));
-        String[] ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
+        ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
         spinnerEthnic.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, ethnics));
 
         edtName.addTextChangedListener(new InputListener(inputName));
@@ -101,6 +106,32 @@ public class MotherParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
+    }
+
+    private void setupInitialData() {
+        BirthRegData birthRegData= (BirthRegData) getActivity().getIntent().getSerializableExtra("data");
+        if(birthRegData != null){
+            setDataToViews(birthRegData);
+        }
+    }
+
+    private void setDataToViews(BirthRegData birthRegData) {
+        edtName.setText(birthRegData.getMotherBirthData().getName());
+        edtOccupation.setText(birthRegData.getMotherBirthData().getOccupation());
+        edtAddress.setText(birthRegData.getMotherBirthData().getAddress());
+        edtAge.setText(String.valueOf(birthRegData.getMotherBirthData().getAge()));
+        edtStateOrigin.setText(birthRegData.getMotherBirthData().getStateOfOrigin());
+        edtNumber.setText(birthRegData.getMotherBirthData().getPhoneNumber());
+        edtNationalId.setText(birthRegData.getMotherBirthData().getNationalID());
+
+        spinnerMaritalStatus.setSelection( Arrays.asList(status).indexOf(birthRegData.getMotherBirthData().getMaritalStatus()));
+        spinnerEthnic.setSelection( Arrays.asList(ethnics).indexOf(birthRegData.getMotherBirthData().getEthnicGroup()));
 
     }
 

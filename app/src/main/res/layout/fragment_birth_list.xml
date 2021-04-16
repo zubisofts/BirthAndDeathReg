@@ -20,4 +20,14 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtEmptyRecord"
+        android:layout_margin="32dp"
+        android:text="There's no record found here. \nUse the below button to add records."
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
