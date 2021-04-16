@@ -13,21 +13,19 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
-import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
-import com.zubisoft.birthanddeathreg.handlers.DataInteractionListener;
+import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
-import com.zubisoft.birthanddeathreg.model.FatherBirthData;
-import com.zubisoft.birthanddeathreg.model.InformantBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.InformantBirthData;
 
 public class InformantParticularsFragment extends Fragment implements Step {
 
     private TextInputLayout inputName, inputNumber,inputAddress, inputNationalId,inputRelationShip;
     private TextInputEditText edtName, edtNumber, edtAddress, edtNationalId, edtRelationShip;
-    private DataInteractionListener dataInteractionListener;
+    private BirthDataInteractionListener birthDataInteractionListener;
 
-    public InformantParticularsFragment(DataInteractionListener dataInteractionListener) {
-        this.dataInteractionListener=dataInteractionListener;
+    public InformantParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
+        this.birthDataInteractionListener = birthDataInteractionListener;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class InformantParticularsFragment extends Fragment implements Step {
     @Override
     public VerificationError verifyStep() {
         if (isFieldsValidated()){
-            dataInteractionListener.onInformantBirthDataPassed(new InformantBirthData(
+            birthDataInteractionListener.onInformantBirthDataPassed(new InformantBirthData(
                     edtName.getText().toString(),
                     edtRelationShip.getText().toString(),
                     edtNumber.getText().toString(),

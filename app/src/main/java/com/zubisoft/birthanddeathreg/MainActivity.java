@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(new Intent(MainActivity.this, BirthRegistrationActivity.class));
+               startActivity(new Intent(MainActivity.this, DeathRegistrationActivity.class));
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

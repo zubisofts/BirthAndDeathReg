@@ -20,9 +20,9 @@ import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
-import com.zubisoft.birthanddeathreg.handlers.DataInteractionListener;
+import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
-import com.zubisoft.birthanddeathreg.model.ChildBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.ChildBirthData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,11 +37,11 @@ public class ChildParticularsFragment extends Fragment implements Step {
     private TextInputEditText edtName, edtPlaceOfBirth;
     private long date;
 
-    private DataInteractionListener dataInteractionListener;
+    private BirthDataInteractionListener birthDataInteractionListener;
 
 
-    public ChildParticularsFragment(DataInteractionListener dataInteractionListener) {
-        this.dataInteractionListener=dataInteractionListener;
+    public ChildParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
+        this.birthDataInteractionListener = birthDataInteractionListener;
     }
 
     @Override
@@ -61,10 +61,10 @@ public class ChildParticularsFragment extends Fragment implements Step {
         sexSpinner = view.findViewById(R.id.sexSpinner);
         String[] sexes = new String[]{"Male", "Female"};
         String[] birthTypes = new String[]{"Single", "Multiple"};
-        inputTypeOfBirth.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthTypes));
+        inputTypeOfBirth.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthTypes));
         String[] birthOccurrence = new String[]{"Maternity Home", "Hospital", "At Home", "Traditional Doctor's place"};
-        inputOccurrence.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthOccurrence));
-        sexSpinner.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, sexes));
+        inputOccurrence.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, birthOccurrence));
+        sexSpinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, sexes));
 
         view.findViewById(R.id.btnDateOfBirth).setOnClickListener(v -> {
             MaterialDatePicker<Long> datePicker =
@@ -114,7 +114,7 @@ public class ChildParticularsFragment extends Fragment implements Step {
     @Override
     public VerificationError verifyStep() {
         if (isFieldsValidated()){
-            dataInteractionListener.onChildBirthDataPassed(new ChildBirthData(
+            birthDataInteractionListener.onChildBirthDataPassed(new ChildBirthData(
                     edtName.getText().toString(),
                     0L,
                     sexSpinner.getSelectedItem().toString(),

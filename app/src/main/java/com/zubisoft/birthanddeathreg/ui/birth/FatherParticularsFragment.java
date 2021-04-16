@@ -16,19 +16,19 @@ import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
-import com.zubisoft.birthanddeathreg.handlers.DataInteractionListener;
+import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
-import com.zubisoft.birthanddeathreg.model.FatherBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.FatherBirthData;
 
 public class FatherParticularsFragment extends Fragment implements Step {
 
     private TextInputLayout inputName, inputNumber, inputStateOrigin, inputAddress, inputNationalId, inputOccupation, inputAge;
     private TextInputEditText edtName, edtNumber, edtStateOrigin, edtAddress, edtNationalId, edtOccupation, edtAge;
     private MaterialSpinner spinnerMaritalStatus, spinnerEthnic;
-    private DataInteractionListener dataInteractionListener;
+    private BirthDataInteractionListener birthDataInteractionListener;
 
-    public FatherParticularsFragment(DataInteractionListener dataInteractionListener) {
-       this.dataInteractionListener=dataInteractionListener;
+    public FatherParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
+       this.birthDataInteractionListener = birthDataInteractionListener;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FatherParticularsFragment extends Fragment implements Step {
     @Override
     public VerificationError verifyStep() {
                 if (isFieldsValidated()){
-            dataInteractionListener.onFatherBirthDataPassed(new FatherBirthData(
+            birthDataInteractionListener.onFatherBirthDataPassed(new FatherBirthData(
                     edtName.getText().toString(),
                     edtNumber.getText().toString(),
                     edtAddress.getText().toString(),
