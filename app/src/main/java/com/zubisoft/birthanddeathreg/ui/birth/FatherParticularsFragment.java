@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,19 +17,27 @@ import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 import com.tiper.MaterialSpinner;
 import com.zubisoft.birthanddeathreg.R;
-import com.zubisoft.birthanddeathreg.handlers.DataInteractionListener;
+import com.zubisoft.birthanddeathreg.handlers.BirthDataInteractionListener;
 import com.zubisoft.birthanddeathreg.handlers.InputListener;
-import com.zubisoft.birthanddeathreg.model.FatherBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.FatherBirthData;
+import com.zubisoft.birthanddeathreg.model.deathmodels.DeathRegData;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Locale;
 
 public class FatherParticularsFragment extends Fragment implements Step {
 
     private TextInputLayout inputName, inputNumber, inputStateOrigin, inputAddress, inputNationalId, inputOccupation, inputAge;
     private TextInputEditText edtName, edtNumber, edtStateOrigin, edtAddress, edtNationalId, edtOccupation, edtAge;
     private MaterialSpinner spinnerMaritalStatus, spinnerEthnic;
-    private DataInteractionListener dataInteractionListener;
+    private BirthDataInteractionListener birthDataInteractionListener;
+    private String[] status;
+    private String[] ethnics;
 
-    public FatherParticularsFragment(DataInteractionListener dataInteractionListener) {
-       this.dataInteractionListener=dataInteractionListener;
+    public FatherParticularsFragment(BirthDataInteractionListener birthDataInteractionListener) {
+       this.birthDataInteractionListener = birthDataInteractionListener;
     }
 
     @Override
@@ -56,9 +65,9 @@ public class FatherParticularsFragment extends Fragment implements Step {
         spinnerEthnic = view.findViewById(R.id.fatherEthnicSpinner);
         spinnerMaritalStatus = view.findViewById(R.id.spinnerMaritalStatus);
 
-        String[] status = new String[]{"Single", "Married"};
+        status = new String[]{"Single", "Married"};
         spinnerMaritalStatus.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, status));
-        String[] ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
+        ethnics = new String[]{"Ibo", "Yoruba", "Hausa"};
         spinnerEthnic.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, ethnics));
 
         edtName.addTextChangedListener(new InputListener(inputName));
@@ -80,7 +89,7 @@ public class FatherParticularsFragment extends Fragment implements Step {
     @Override
     public VerificationError verifyStep() {
                 if (isFieldsValidated()){
-            dataInteractionListener.onFatherBirthDataPassed(new FatherBirthData(
+            birthDataInteractionListener.onFatherBirthDataPassed(new FatherBirthData(
                     edtName.getText().toString(),
                     edtNumber.getText().toString(),
                     edtAddress.getText().toString(),
@@ -99,6 +108,32 @@ public class FatherParticularsFragment extends Fragment implements Step {
 
     @Override
     public void onSelected() {
+        String type=getActivity().getIntent().getStringExtra("type");
+        if(type!=null) {
+            if (type.equals("edit")) {
+                setupInitialData();
+            }
+        }
+    }
+
+    private void setupInitialData() {
+        BirthRegData birthRegData= (BirthRegData) getActivity().getIntent().getSerializableExtra("data");
+        if(birthRegData != null){
+            setDataToViews(birthRegData);
+        }
+    }
+
+    private void setDataToViews(BirthRegData birthRegData) {
+        edtName.setText(birthRegData.getFatherBirthData().getName());
+        edtOccupation.setText(birthRegData.getFatherBirthData().getOccupation());
+        edtAddress.setText(birthRegData.getFatherBirthData().getAddress());
+        edtAge.setText(String.valueOf(birthRegData.getFatherBirthData().getAge()));
+        edtStateOrigin.setText(birthRegData.getFatherBirthData().getStateOfOrigin());
+        edtNumber.setText(birthRegData.getFatherBirthData().getPhoneNumber());
+        edtNationalId.setText(birthRegData.getFatherBirthData().getNationalID());
+
+        spinnerMaritalStatus.setSelection( Arrays.asList(status).indexOf(birthRegData.getFatherBirthData().getMaritalStatus()));
+        spinnerEthnic.setSelection( Arrays.asList(ethnics).indexOf(birthRegData.getFatherBirthData().getEthnicGroup()));
 
     }
 

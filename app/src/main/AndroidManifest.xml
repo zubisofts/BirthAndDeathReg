@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BirthAndDeathReg">
-        <activity android:name=".BirthRegistrationActivity"></activity>
+        <activity android:name=".DeathRegistrationActivity"></activity>
+        <activity android:name=".BirthRegistrationActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity

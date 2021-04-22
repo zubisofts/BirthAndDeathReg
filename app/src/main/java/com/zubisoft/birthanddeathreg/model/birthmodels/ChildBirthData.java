@@ -1,14 +1,18 @@
-package com.zubisoft.birthanddeathreg.model;
+package com.zubisoft.birthanddeathreg.model.birthmodels;
 
-public class ChildBirthData {
+import java.io.Serializable;
 
-    private String id;
+public class ChildBirthData implements Serializable {
+
     private String childName;
     private long dateOfBirth;
     private String sex;
     private String placeOfBirth;
     private String placeOfBirthOccurrence;
     private String typeOfBirth;
+
+    public ChildBirthData() {
+    }
 
     public ChildBirthData(String childName, long dateOfBirth, String sex, String placeOfBirth, String placeOfBirthOccurrence, String typeOfBirth) {
         this.childName = childName;
@@ -17,14 +21,6 @@ public class ChildBirthData {
         this.placeOfBirth = placeOfBirth;
         this.placeOfBirthOccurrence = placeOfBirthOccurrence;
         this.typeOfBirth = typeOfBirth;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getChildName() {

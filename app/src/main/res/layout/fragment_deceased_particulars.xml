@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.birth.FatherParticularsFragment"
-    android:orientation="vertical"
-    android:padding="32dp">
+    tools:context=".ui.death.DeceasedParticularsFragment"
+    android:padding="32dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,135 +16,178 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/inputFatherName"
+        android:id="@+id/inputDeaceasedName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fathers Name(Surname First)"
-            android:inputType="text"
-            android:id="@+id/edtFathersName">
-
-        </com.google.android.material.textfield.TextInputEditText>
+            android:id="@+id/edtDeaceasedName"
+            android:hint="Deaceased Name(Surname First)"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/inputFathersNumber"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone Number"
-            android:id="@+id/edtFathersNumber"
-            android:inputType="number">
-
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/inputFatherAddress"
-        android:layout_marginTop="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Address Of Residence"
-            android:inputType="text"
-            android:id="@+id/edtFatherAddress">
-
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="10dp"
-        android:id="@+id/inputFatherNID"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtFatherNID"
-            android:layout_gravity="center_vertical"
-            android:hint="NationalID"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <com.google.android.material.textfield.TextInputLayout
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnDateOfBirth"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/inputFatherAge"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/purple_200"
+            app:cardElevation="8dp"
+            app:contentPadding="12dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Age at Child Birth"
-                android:id="@+id/edtFatherAge"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/deathDateIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:id="@+id/txtDateOfDeath"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/deathDateIcon"
+                    android:text="Date of Death" />
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.tiper.MaterialSpinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/deathSexSpinner"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/spinnerMaritalStatus"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:hint="Marital Status"
-            android:layout_margin="5dp"
-            app:spinnerMode="dropdown"/>
+            android:hint="Sex"
+            app:spinnerMode="dropdown" />
 
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/inputFatherStateOfOrigin"
+        android:id="@+id/inputDeaceasedOccupation"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtDeaceasedOccupation"
+            android:hint="Occupation"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.tiper.MaterialSpinner
+        android:id="@+id/deathPlacepinner"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:hint="Place Of Death"
+        app:spinnerMode="dropdown" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputDeceasedAddress"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtDeceasedAddress"
+            android:hint="Deaceased Residence Address"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputDeaceasedAge"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtDeaceasedAge"
+                android:inputType="numberDecimal"
+                android:hint="Age at Death"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.tiper.MaterialSpinner
+            android:id="@+id/deaceasedStatusSpinner"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:hint="Marital Status"
+            app:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/inputDeaceasedOrigin"
+        android:layout_marginTop="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="State Of Origin"
-            android:id="@+id/edtFatherOrigin"/>
+            android:id="@+id/edtDeaceasedOrigin"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.tiper.MaterialSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/fatherEthnicSpinner"
+        android:id="@+id/spinerDeaceasedEthnic"
         android:layout_gravity="center_vertical"
         android:hint="Ethnic Origin"
-        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
         app:spinnerMode="dropdown"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/inputFatherOccupation"
+        android:id="@+id/inputDeceasedDeathCause"
+        android:layout_marginTop="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Occupation"
-            android:id="@+id/edtFatherOccupation"/>
+            android:hint="Cause Of Death"
+            android:id="@+id/edtDeceasedDeathCause"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

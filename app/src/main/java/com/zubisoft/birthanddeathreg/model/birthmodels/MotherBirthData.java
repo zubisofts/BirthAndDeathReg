@@ -1,8 +1,9 @@
-package com.zubisoft.birthanddeathreg.model;
+package com.zubisoft.birthanddeathreg.model.birthmodels;
 
-public class MotherBirthData {
+import java.io.Serializable;
 
-    private String id;
+public class MotherBirthData implements Serializable {
+
     private String name;
     private String phoneNumber;
     private String address;
@@ -12,6 +13,9 @@ public class MotherBirthData {
     private String stateOfOrigin;
     private String ethnicGroup;
     private String occupation;
+
+    public MotherBirthData() {
+    }
 
     public MotherBirthData(String name, String phoneNumber, String address, String nationalID, String age, String maritalStatus, String stateOfOrigin, String ethnicGroup, String occupation) {
         this.name = name;
@@ -23,14 +27,6 @@ public class MotherBirthData {
         this.stateOfOrigin = stateOfOrigin;
         this.ethnicGroup = ethnicGroup;
         this.occupation = occupation;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -25,21 +25,21 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="349dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnDateOfBirth"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/btnDateOfBirth"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
             app:cardBackgroundColor="@color/purple_200"
-            android:layout_marginEnd="16dp"
             app:cardElevation="8dp"
             app:contentPadding="12dp">
 
@@ -57,12 +57,12 @@
                     android:src="@drawable/ic_date" />
 
                 <TextView
+                    android:id="@+id/txtDateOfBirth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtDateOfBirth"
-                    android:text="Date of birth"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/dateIcon"/>
+                    android:layout_toRightOf="@id/dateIcon"
+                    android:text="Date of birth" />
 
             </RelativeLayout>
 
@@ -70,13 +70,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.tiper.MaterialSpinner
+            android:id="@+id/sexSpinner"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/sexSpinner"
             android:layout_gravity="center_vertical"
             android:hint="Child Sex"
-            app:spinnerMode="dropdown"/>
+            app:spinnerMode="dropdown" />
 
     </LinearLayout>
 

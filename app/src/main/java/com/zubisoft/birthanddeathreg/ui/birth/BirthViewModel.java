@@ -4,16 +4,36 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.zubisoft.birthanddeathreg.model.RestData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
+import com.zubisoft.birthanddeathreg.repository.DataRepository;
+
 public class BirthViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private final MutableLiveData<RestData> birthRegResponse=new MutableLiveData<>();
+    private final MutableLiveData<RestData> birthRegListResponse=new MutableLiveData<>();
 
-    public BirthViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+    public void saveBirthInfo(BirthRegData birthRegData){
+        new DataRepository().saveBirthRegistrationData(birthRegData,birthRegResponse);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<RestData> getBirthRegResponse(){
+        return birthRegResponse;
+    }
+
+    public void fetchBirthRegList(){
+        new DataRepository().fetchBirthRegList(birthRegListResponse);
+    }
+
+    public MutableLiveData<RestData> onBirthRegListResponse(){
+        return birthRegListResponse;
+    }
+
+    public void deleteBirthRecord(String id) {
+        new DataRepository().deleteBirthRecord(id);
+    }
+
+    public void updateDeathInfo(BirthRegData birthRegData) {
+        new DataRepository().updateBirthRegData(birthRegData, birthRegResponse);
     }
 }
