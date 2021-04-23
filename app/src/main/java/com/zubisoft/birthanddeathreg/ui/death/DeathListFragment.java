@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.zubisoft.birthanddeathreg.DeathDetailsActivity;
 import com.zubisoft.birthanddeathreg.DeathRegistrationActivity;
 import com.zubisoft.birthanddeathreg.R;
 import com.zubisoft.birthanddeathreg.adapters.BirthListAdapter;
@@ -60,6 +61,9 @@ public class DeathListFragment extends Fragment implements DeathListAdapter.Deat
 
     @Override
     public void onItemClicked(DeathRegData deathRegData) {
+        Intent intent = new Intent(getActivity(), DeathDetailsActivity.class);
+        intent.putExtra("data",deathRegData);
+        startActivity(intent);
 
     }
 
