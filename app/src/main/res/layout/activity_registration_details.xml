@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:title="Registration Details"
+            app:title="Birth Registration Details"
             app:navigationIcon="@drawable/ic_close"/>
     </com.google.android.material.appbar.AppBarLayout>
 
