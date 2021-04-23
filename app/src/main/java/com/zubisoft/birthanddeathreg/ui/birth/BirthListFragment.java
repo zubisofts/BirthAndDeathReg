@@ -22,9 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zubisoft.birthanddeathreg.BirthRegistrationActivity;
 import com.zubisoft.birthanddeathreg.DeathRegistrationActivity;
 import com.zubisoft.birthanddeathreg.R;
+import com.zubisoft.birthanddeathreg.RegistrationDetailsActivity;
 import com.zubisoft.birthanddeathreg.adapters.BirthListAdapter;
 import com.zubisoft.birthanddeathreg.model.RestData;
 import com.zubisoft.birthanddeathreg.model.birthmodels.BirthRegData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.ChildBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.FatherBirthData;
+import com.zubisoft.birthanddeathreg.model.birthmodels.MotherBirthData;
 
 import java.util.ArrayList;
 
@@ -63,6 +67,9 @@ public class BirthListFragment extends Fragment implements BirthListAdapter.Birt
 
     @Override
     public void onBirthItemClicked(BirthRegData birthRegData) {
+        Intent intent=new Intent(getContext(), RegistrationDetailsActivity.class);
+        intent.putExtra("data", birthRegData);
+        startActivity(intent);
 
     }
 
