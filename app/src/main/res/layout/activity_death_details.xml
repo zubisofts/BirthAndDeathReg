@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationDetailsActivity">
+    tools:context=".DeathDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date of Birth : "
+                    android:text="Date of Death : "
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -247,7 +247,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Place of Death: "
+                    android:text="Cause of Death: "
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
@@ -255,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Villiam Cherechi Williams"
-                    android:id="@+id/txt_placeOfDeath"
+                    android:id="@+id/txt_causeOfDeath"
                     />
             </LinearLayout>
 
